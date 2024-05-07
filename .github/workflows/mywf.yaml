@@ -30,6 +30,7 @@ jobs:
         SLACK_MESSAGE:  |
           Failed trivy scan, see uploaded report
         SLACK_WEBHOOK_URL:  ${{ secrets.SLACK_WEBHOOK_URL_T }}
+        text: "sending slack noti"
 
     # Upload file to Slack
     - uses: MeilCli/slack-upload-file@v4
