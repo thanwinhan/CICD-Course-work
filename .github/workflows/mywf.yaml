@@ -1,15 +1,11 @@
 name: My Workflow
 on:
   push:
-    branches:
-    - 'release/v*.*'
-    - '!v*.*-beta'
-    - '!release/v*.*.*'
-    - '!feature-01'
+    
 
 jobs:
   test:
-    #if: ${{ !contains(github.event.head_commit.message, '#NORUN') }}
+    
     runs-on: ubuntu-latest
     steps:
     # checkout
