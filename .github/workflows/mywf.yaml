@@ -23,12 +23,11 @@ jobs:
 
     # Send slack noti
     - name: Send GitHub Action trigger data to Slack workflow
+      id: slack
       uses: slackapi/slack-github-action@v1.26.0
       with:
-        SLACK_COLOR: '#FF0000'
-        SLACK_TITLE:  "Scan failed - Than Win Han"
-        SLACK_MESSAGE:  |
-          Failed trivy scan, see uploaded report
+        channel_id: ${{ secrets.SLACK_CHANNEL_ID_T }}
+        slack-message: "*Scan failed - Than Win Han*\nFailed trivy scan, see uploaded report"
       env: 
         SLACK_WEBHOOK_URL:  ${{ secrets.SLACK_WEBHOOK_URL_T }}
 
