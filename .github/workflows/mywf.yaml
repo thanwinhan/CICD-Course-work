@@ -24,13 +24,13 @@ jobs:
     # Send slack noti
     - name: Send GitHub Action trigger data to Slack workflow
       uses: slackapi/slack-github-action@v1.26.0
-      env: 
-        id: slack
-        SLACK_COLOR: '#FF0000'
-        SLACK_TITLE:  "Scan failed - Than Win Han"
-        SLACK_MESSAGE:  |
-          Failed trivy scan, see uploaded report
-        SLACK_WEBHOOK_URL:  ${{ secrets.SLACK_WEBHOOK_URL_T }}
+      with:
+        env: 
+          SLACK_COLOR: '#FF0000'
+          SLACK_TITLE:  "Scan failed - Than Win Han"
+          SLACK_MESSAGE:  |
+            Failed trivy scan, see uploaded report
+          SLACK_WEBHOOK_URL:  ${{ secrets.SLACK_WEBHOOK_URL_T }}
 
     # Upload file to Slack
     - uses: MeilCli/slack-upload-file@v4
