@@ -25,6 +25,7 @@ jobs:
     - name: Send GitHub Action trigger data to Slack workflow
       uses: rtCamp/action-slack-notify@v2
       env: 
+        SLACK_COLOR: 'failure'
         SLACK_TOKEN: ${{ secrets.SLACK_TOKEN }}
         SLACK_CHANNEL: ${{ secrets.SLACK_CHANNEL_ID_T }}
         SLACK_TITLE: "Scan failed - Than Win Han"
