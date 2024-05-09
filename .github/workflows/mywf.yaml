@@ -91,11 +91,11 @@ jobs:
       - name: Send GitHub Action trigger data to Slack workflow
         uses: rtCamp/action-slack-notify@v2
         env:
-          SLACK_TITLE: "Scan failed - Than Win Han"
-          SLACK_COLOR: '#FF0000'
-          SLACK_MESSAGE:  |
-            Failed trivy scan, see uploaded report
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL_T }}
+            SLACK_TITLE: "Scan failed - Than Win Han"
+            SLACK_COLOR: '#FF0000'
+            SLACK_MESSAGE:  |
+              Failed trivy scan, see uploaded report
+            SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL_T }}
 
       # Upload file to Slack
       - uses: MeilCli/slack-upload-file@v3
