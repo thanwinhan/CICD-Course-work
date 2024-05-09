@@ -8,6 +8,7 @@ on:
 jobs:
   successful_scan: 
     runs-on: ubuntu-latest
+    permissions: {}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
