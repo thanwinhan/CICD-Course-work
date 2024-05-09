@@ -20,30 +20,29 @@ jobs:
         with:
           scan-type: 'fs'
           format: 'table'
-          severity: 'CRITICAL'
+          severity: 'HIGH'
           output: 'trivy-results.txt'
 
-      - name: Send Github Action trigger data to Slack workflow
-        uses: rtCamp/action-slack-notify@v2
-        env:
-          SLACK_TITLE: "Image build and signed"
-          SLACK_MESSAGE: |
-            Name: Than Win Han
-            Matriculation: A0291950Y
-            Email: thanwinhan98@gmail.com
-            GitHub: https://github.com/thanwinhan/CICD-Course-work
-            Docker: https://hub.docker.com/repository/docker/twister777/go-fortune/general
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL_T }}
-
-      # Send slack notification
-      # - name: Send GitHub Action trigger data to Slack workflow
+      # - name: Send Github Action trigger data to Slack workflow
       #   uses: rtCamp/action-slack-notify@v2
       #   env:
-      #       SLACK_TITLE: "Scan failed - Than Win Han"
-      #       SLACK_COLOR: '#FF0000'
-      #       SLACK_MESSAGE:  |
-      #         Failed trivy scan, see uploaded report
-      #       SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL_T }}
+      #     SLACK_TITLE: "Image build and signed"
+      #     SLACK_MESSAGE: |
+      #       Name: Than Win Han
+      #       Matriculation: A0291950Y
+      #       Email: thanwinhan98@gmail.com
+      #       GitHub: https://github.com/thanwinhan/CICD-Course-work
+      #       Docker: https://hub.docker.com/repository/docker/twister777/go-fortune/general
+      #     SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL_T }}
+
+      Send slack notification
+      - name: Send GitHub Action trigger data to Slack workflow
+        uses: rtCamp/action-slack-notify@v2
+        env:
+            SLACK_TITLE: "Scan failed - Than Win Han"
+            SLACK_MESSAGE:  |
+              Failed trivy scan, see uploaded report
+            SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL_T }}
 
   # success_build: 
   #   if: ${{ vars.CONDITION == 'SUCCESS' && startsWith(github.event.head_commit.message, '#NORUN') != true }}
