@@ -35,7 +35,7 @@ jobs:
       #       Docker: https://hub.docker.com/repository/docker/twister777/go-fortune/general
       #     SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL_T }}
 
-      Send slack notification
+      # Send slack notification
       - name: Send GitHub Action trigger data to Slack workflow
         uses: rtCamp/action-slack-notify@v2
         env:
