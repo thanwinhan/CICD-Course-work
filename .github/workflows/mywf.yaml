@@ -4,10 +4,10 @@ name: My Workflow
 on:
   push:
     branches:
-      - 'v[0-9]+.[0-9]+'
+      - v[0-9]+.[0-9]+
 
 jobs:
-  # success: 
+  # success_build: 
   #   if: ${{ vars.CONDITION == 'SUCCESS' && startsWith(github.event.head_commit.message, '#NORUN') != true }}
   #   runs-on: ubuntu-latest
   #   steps:
@@ -68,8 +68,9 @@ jobs:
   #           Docker: https://hub.docker.com/repository/docker/twister777/go-fortune/general
   #         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL_T }}
 
-  fail:
-    if: ${{ vars.CONDITION == 'FAIL' && startsWith(github.event.head_commit.message, '#NORUN') != true }}
+  fail_build:
+    # if: ${{ vars.CONDITION == 'FAIL' && startsWith(github.event.head_commit.message, '#NORUN') != true }}
+    if: ${{ !contains(github.event.head_commit.message, '#NORUN') }}
     runs-on: ubuntu-latest
     steps:
       # checkout
