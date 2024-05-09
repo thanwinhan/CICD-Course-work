@@ -66,8 +66,8 @@ jobs:
             Name: Than Win Han
             Matriculation: A0291950Y
             Email: thanwinhan@gmail.com
-            GitHub: https://github.com/thanwinhan/CICD-Course-work
-            Docker: https://hub.docker.com/repository/docker/twister777/go-fortune/general
+            Git: https://github.com/thanwinhan/CICD-Course-work
+            Image: https://hub.docker.com/repository/docker/twister777/go-fortune/general
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}    
 
   fail_scan:
