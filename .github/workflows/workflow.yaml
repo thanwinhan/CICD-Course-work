@@ -65,7 +65,7 @@ jobs:
           SLACK_MESSAGE: |
             Name: Than Win Han
             Matriculation: A0291950Y
-            Email: thanwinhan@gmail.com
+            Email: thanwinhan98@gmail.com
             Git: https://github.com/thanwinhan/CICD-Course-work
             Image: https://hub.docker.com/repository/docker/twister777/go-fortune/general
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}    
