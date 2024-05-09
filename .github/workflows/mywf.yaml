@@ -11,7 +11,11 @@ jobs:
     name: Slack Notification
     runs-on: ubuntu-latest
     steps:
-      # Send slack noti
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      
+      # Send slack notification
       - name: Send GitHub Action trigger data to Slack workflow
         uses: rtCamp/action-slack-notify@v2
         env:
