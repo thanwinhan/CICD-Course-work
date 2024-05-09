@@ -70,34 +70,34 @@ jobs:
             Docker: https://hub.docker.com/repository/docker/twister777/go-fortune/general
           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL_T }}    
 
-  # fail_scan:
-    # if: ${{ !contains(github.event.head_commit.message, '#NORUN') }}
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v4
+  fail_scan:
+    if: ${{ !contains(github.event.head_commit.message, '#NORUN') }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
-  #     - name: Scanning
-  #       uses: aquasecurity/trivy-action@master
-  #       with:
-  #         scan-type: 'fs'
-  #         format: 'table'
-  #         severity: 'HIGH'
-  #         output: 'trivy-results.txt'
+      - name: Scanning
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          format: 'table'
+          severity: 'HIGH'
+          output: 'trivy-results.txt'
 
-  #     - name: Send GitHub Action trigger data to Slack workflow
-  #       uses: rtCamp/action-slack-notify@v2
-  #       env:
-  #           SLACK_TITLE: "Scan failed - Than Win Han"
-  #           SLACK_COLOR: "failure"
-  #           SLACK_MESSAGE:  |
-  #             Failed trivy scan, see uploaded report
-  #           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL_T }}
+      - name: Send GitHub Action trigger data to Slack workflow
+        uses: rtCamp/action-slack-notify@v2
+        env:
+            SLACK_TITLE: "Scan failed - Than Win Han"
+            SLACK_COLOR: "failure"
+            SLACK_MESSAGE:  |
+              Failed trivy scan, see uploaded report
+            SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL_T }}
 
-  #     - name: Upload file to Slack
-  #       uses: MeilCli/slack-upload-file@v4.0.6
-  #       with:
-  #           slack_token: ${{ secrets.SLACK_TOKEN }}
-  #           channel_id: ${{ secrets.SLACK_CHANNEL_ID_T }}
-  #           file_path: 'trivy-results.txt'
-  #           initial_comment: 'Scan report by Than Win Han'
+      - name: Upload file to Slack
+        uses: MeilCli/slack-upload-file@v4.0.6
+        with:
+            slack_token: ${{ secrets.SLACK_TOKEN }}
+            channel_id: ${{ secrets.SLACK_CHANNEL_ID_T }}
+            file_path: 'trivy-results.txt'
+            initial_comment: 'Scan report by Than Win Han'
