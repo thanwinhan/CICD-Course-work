@@ -7,7 +7,7 @@ on:
       - '!v*.*-beta'
       - '!release/v*.*.*'
       - '!feature-01'
-
+# add some cmt
 jobs:
   successful_scan: 
     if: ${{ !contains(github.event.head_commit.message, '#NORUN') }}
