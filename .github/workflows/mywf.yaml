@@ -24,16 +24,16 @@ jobs:
           output: 'trivy-results.txt'
 
       - name: Send Github Action trigger data to Slack workflow
-          uses: rtCamp/action-slack-notify@v2
-          env:
-            SLACK_TITLE: "Image build and signed"
-            SLACK_MESSAGE: |
-              Name: Than Win Han
-              Matriculation: A0291950Y
-              Email: thanwinhan98@gmail.com
-              GitHub: https://github.com/thanwinhan/CICD-Course-work
-              Docker: https://hub.docker.com/repository/docker/twister777/go-fortune/general
-            SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL_T }}
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_TITLE: "Image build and signed"
+          SLACK_MESSAGE: |
+            Name: Than Win Han
+            Matriculation: A0291950Y
+            Email: thanwinhan98@gmail.com
+            GitHub: https://github.com/thanwinhan/CICD-Course-work
+            Docker: https://hub.docker.com/repository/docker/twister777/go-fortune/general
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL_T }}
 
       # Send slack notification
       # - name: Send GitHub Action trigger data to Slack workflow
