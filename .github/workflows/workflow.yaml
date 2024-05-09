@@ -68,7 +68,7 @@ jobs:
             Email: thanwinhan@gmail.com
             GitHub: https://github.com/thanwinhan/CICD-Course-work
             Docker: https://hub.docker.com/repository/docker/twister777/go-fortune/general
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL_T }}    
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}    
 
   fail_scan:
     if: ${{ !contains(github.event.head_commit.message, '#NORUN') }}
