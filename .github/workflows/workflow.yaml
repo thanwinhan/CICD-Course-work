@@ -18,7 +18,7 @@ jobs:
         with:
           scan-type: 'fs'
           format: 'table'
-          severity: 'LOW'
+          severity: 'HIGH'
           output: 'trivy-results.txt'
 
       - name: Send GitHub Action trigger data to Slack workflow
