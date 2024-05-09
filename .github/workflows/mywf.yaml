@@ -8,6 +8,9 @@ on:
 
 jobs:
   slackNotification:
+    name: Slack Notification
+    runs-on: ubuntu-latest
+    steps:
       # Send slack noti
       - name: Send GitHub Action trigger data to Slack workflow
         uses: rtCamp/action-slack-notify@v2
