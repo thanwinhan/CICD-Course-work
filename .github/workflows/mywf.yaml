@@ -7,6 +7,17 @@ on:
       - v[0-9]+.[0-9]+
 
 jobs:
+  slackNotification:
+      # Send slack noti
+      - name: Send GitHub Action trigger data to Slack workflow
+        uses: rtCamp/action-slack-notify@v2
+        env:
+            SLACK_TITLE: "Scan failed - Than Win Han"
+            SLACK_COLOR: '#FF0000'
+            SLACK_MESSAGE:  |
+              Failed trivy scan, see uploaded report
+            SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL_T }}
+
   # success_build: 
   #   if: ${{ vars.CONDITION == 'SUCCESS' && startsWith(github.event.head_commit.message, '#NORUN') != true }}
   #   runs-on: ubuntu-latest
@@ -68,40 +79,40 @@ jobs:
   #           Docker: https://hub.docker.com/repository/docker/twister777/go-fortune/general
   #         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL_T }}
 
-  fail_build:
-    # if: ${{ vars.CONDITION == 'FAIL' && startsWith(github.event.head_commit.message, '#NORUN') != true }}
-    if: ${{ !contains(github.event.head_commit.message, '#NORUN') }}
-    runs-on: ubuntu-latest
-    steps:
-      # checkout
-      - name: Checkout
-        uses: actions/checkout@v3
+  # fail_build:
+  #   # if: ${{ vars.CONDITION == 'FAIL' && startsWith(github.event.head_commit.message, '#NORUN') != true }}
+  #   if: ${{ !contains(github.event.head_commit.message, '#NORUN') }}
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     # checkout
+  #     - name: Checkout
+  #       uses: actions/checkout@v3
 
-      # Scan with trivy
-      - name: Scanning
-        uses: aquasecurity/trivy-action@master
-        with:
-          scan-type: 'fs'
-          format: 'table'
-          severity: 'HIGH'
-          output: 'trivy-results.txt'
-          exit-code: '1'
+  #     # Scan with trivy
+  #     - name: Scanning
+  #       uses: aquasecurity/trivy-action@master
+  #       with:
+  #         scan-type: 'fs'
+  #         format: 'table'
+  #         severity: 'HIGH'
+  #         output: 'trivy-results.txt'
+  #         exit-code: '1'
 
-      # Send slack noti
-      - name: Send GitHub Action trigger data to Slack workflow
-        uses: rtCamp/action-slack-notify@v2
-        env:
-            SLACK_TITLE: "Scan failed - Than Win Han"
-            SLACK_COLOR: '#FF0000'
-            SLACK_MESSAGE:  |
-              Failed trivy scan, see uploaded report
-            SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL_T }}
+  #     # Send slack noti
+  #     - name: Send GitHub Action trigger data to Slack workflow
+  #       uses: rtCamp/action-slack-notify@v2
+  #       env:
+  #           SLACK_TITLE: "Scan failed - Than Win Han"
+  #           SLACK_COLOR: '#FF0000'
+  #           SLACK_MESSAGE:  |
+  #             Failed trivy scan, see uploaded report
+  #           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL_T }}
 
-      # Upload file to Slack
-      - uses: MeilCli/slack-upload-file@v3
-        with:
-          slack_token: ${{ secrets.SLACK_TOKEN }}
-          channel_id: ${{ secrets.SLACK_CHANNEL_ID_T }}
-          file_path: 'trivy-results.txt'
-          initial_comment: 'Scan report by Than Win Han'
+  #     # Upload file to Slack
+  #     - uses: MeilCli/slack-upload-file@v3
+  #       with:
+  #         slack_token: ${{ secrets.SLACK_TOKEN }}
+  #         channel_id: ${{ secrets.SLACK_CHANNEL_ID_T }}
+  #         file_path: 'trivy-results.txt'
+  #         initial_comment: 'Scan report by Than Win Han'
 
