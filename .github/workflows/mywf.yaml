@@ -82,7 +82,7 @@ jobs:
           format: 'table'
           severity: 'HIGH'
           output: 'trivy-results.txt'
-          exit-code: 1
+          exit-code: '1'
 
       # Send slack noti
       - name: Send GitHub Action trigger data to Slack workflow
