@@ -3,7 +3,10 @@ name: Workflow
 on:
   push:
     branches:
-      - v[0-9]+.[0-9]+
+      - - 'release/v*.*'
+      - '!v*.*-beta'
+      - '!release/v*.*.*'
+      - '!feature-01'
 
 jobs:
   successful_scan: 
