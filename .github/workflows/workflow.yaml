@@ -6,10 +6,9 @@ on:
       - v[0-9]+.[0-9]+
 
 jobs:
-  slackNotification:
-    name: Slack Notification
+  successful_scan: 
     runs-on: ubuntu-latest
-    steps:
+    stpes:
       - name: Checkout
         uses: actions/checkout@v4
 
@@ -18,21 +17,82 @@ jobs:
         with:
           scan-type: 'fs'
           format: 'table'
-          severity: 'HIGH'
+          severity: 'CRITICAL'
           output: 'trivy-results.txt'
 
-      - name: Send GitHub Action trigger data to Slack workflow
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up docker buildx
+        uses: docker/setup-buildx-action@v3      
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with: 
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+       - name: Build and Push
+         uses: docker/build-push-action@v5.3.0
+         with:
+          push: true
+          tags: twister777/go-fortune:${{ github.sha }}
+
+      - name: cosign-installer
+        uses: sigstore/cosign-installer@v3.5.0
+        with:
+          cosign-release: 'v2.2.4'
+
+      - name: Check Cosign Version!
+        run: cosign version   
+
+      - name: Sign image with a key
+        run: |
+          cosign sign --yes --key env://COSIGN_PRIVATE_KEY ${TAGS}
+        env:
+          TAGS: twister777/go-fortune:${{ github.sha }}
+          COSIGN_PRIVATE_KEY: ${{ secrets.COSIGN_PRIVATE_KEY }}
+          COSIGN_PASSWORD: ${{ secrets.COSIGN_PASSWORD }}  
+
+      - name: Send Github Action trigger data to Slack workflow
         uses: rtCamp/action-slack-notify@v2
         env:
-            SLACK_TITLE: "Scan failed - Than Win Han"
-            SLACK_COLOR: "failure"
-            SLACK_MESSAGE:  |
-              Failed trivy scan, see uploaded report
-            SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL_T }}
+          SLACK_TITLE: "Image build and signed"
+          SLACK_MESSAGE: |
+            Name: Than Win Han
+            Matriculation: A0291950Y
+            Email: thanwinhan@gmail.com
+            GitHub: https://github.com/thanwinhan/
+            Docker: https://hub.docker.com/
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL_T }}    
 
-      - uses: MeilCli/slack-upload-file@v4.0.6
-        with:
-            slack_token: ${{ secrets.SLACK_TOKEN }}
-            channel_id: ${{ secrets.SLACK_CHANNEL_ID_T }}
-            file_path: 'trivy-results.txt'
-            initial_comment: 'Scan report by Than Win Han'
+  # fail_scan:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v4
+
+  #     - name: Scanning
+  #       uses: aquasecurity/trivy-action@master
+  #       with:
+  #         scan-type: 'fs'
+  #         format: 'table'
+  #         severity: 'HIGH'
+  #         output: 'trivy-results.txt'
+
+  #     - name: Send GitHub Action trigger data to Slack workflow
+  #       uses: rtCamp/action-slack-notify@v2
+  #       env:
+  #           SLACK_TITLE: "Scan failed - Than Win Han"
+  #           SLACK_COLOR: "failure"
+  #           SLACK_MESSAGE:  |
+  #             Failed trivy scan, see uploaded report
+  #           SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL_T }}
+
+  #     - name: Upload file to Slack
+  #       uses: MeilCli/slack-upload-file@v4.0.6
+  #       with:
+  #           slack_token: ${{ secrets.SLACK_TOKEN }}
+  #           channel_id: ${{ secrets.SLACK_CHANNEL_ID_T }}
+  #           file_path: 'trivy-results.txt'
+  #           initial_comment: 'Scan report by Than Win Han'
