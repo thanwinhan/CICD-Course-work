@@ -1,0 +1,39 @@
+name: Workflow
+
+on:
+  push:
+    branches:
+      - v[0-9]+.[0-9]+
+
+jobs:
+  slackNotification:
+    name: Slack Notification
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Scanning
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: 'fs'
+          format: 'table'
+          severity: 'LOW'
+          output: 'trivy-results.txt'
+
+      - name: Send GitHub Action trigger data to Slack workflow
+        uses: rtCamp/action-slack-notify@v2
+        env:
+            SLACK_TITLE: "Scan failed - Than Win Han"
+            SLACK_COLOR: "failure"
+            SLACK_MESSAGE:  |
+              Failed trivy scan, see uploaded report
+            SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL_T }}
+
+      - name: "Upload file to Slack"
+        uses: MeilCli/slack-upload-file@v3
+        with:
+          slack_token: ${{ secrets.SLACK_TOKEN }}
+          channel_id: ${{ secrets.SLACK_CHANNEL_ID_T }}
+          file_path: 'trivy-results.txt'
+          initial_comment: 'Scan report by Than Win Han'
